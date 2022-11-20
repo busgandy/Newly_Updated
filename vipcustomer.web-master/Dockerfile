@@ -1,10 +1,13 @@
 FROM node:14
 
-WORKDIR /frontend
+WORKDIR /app/frontend
 
 COPY package.json ./
 
-RUN npm i
+RUN npm i && \
+    npm install husky && \
+    npm audit fix
+
 COPY . .
 
 EXPOSE 3000
