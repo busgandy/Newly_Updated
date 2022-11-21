@@ -14,7 +14,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - docker/install-docker-tools
-  
+
       - run:
           name: Build images of services declared in docker-compose.yml
           command: docker-compose build
