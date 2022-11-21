@@ -16,6 +16,7 @@ jobs:
       - checkout
       - run: |
           # echo Hello, World!
+          remove docker-compose-plugin
           docker compose build
           docker compose up
 
