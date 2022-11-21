@@ -1,37 +1,25 @@
-# This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
 version: 2.1
-# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
-# See: https://circleci.com/docs/2.0/orb-intro/
-orbs:
-  docker: circleci/docker@1.7.0
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
-jobs:
-  example-job:
+executors:
+  my-custom-executor:
     docker:
-      # replace with your preferred image
       - image: cimg/base:stable
-    steps:
-      #- docker/install-docker-tools
-      - run:
-          name: Install Docker Compose
-          environment:
-            COMPOSE_VERSION: '1.29.2'
-          command: |
-            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+        auth:
+          # ensure you have first added these secrets
+          # visit app.circleci.com/settings/project/github/busgandy/Newly_Updated/environment-variables
+          username: $DOCKER_HUB_USER
+          password: $DOCKER_HUB_PASSWORD
+jobs:
+  my-job-name:
 
-      - run:
-          name: Build images of services declared in docker-compose.yml
-          command: docker-compose build
-      - run:
-          name: Start all services declared in docker-compose.yml
-          command: docker-compose up
+    executor: my-custom-executor
+    steps:
+      - checkout
+      - run: |
+          # echo Hello, World!
+          docker compose build
+          docker compose up
 
 workflows:
-  example-workflow:
+  my-custom-workflow:
     jobs:
-      - example-job
-
-    
+      - my-job-name
