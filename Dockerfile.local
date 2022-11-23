@@ -16,6 +16,10 @@ RUN apt-get update \
 # add app
 COPY ./app/ .
 
+# Conditionally create a .env file if environment is production and print it's contents
+RUN if [ "$prod" = "true" ]; then \
+    echo "NEXT_PUBLIC_HELLO_WORLD=$NEXT_PUBLIC_HELLO_WORLD" >> .env.production && \
+    echo "SOME_OTHER_VARIABLE=$SOME_OTHER_VARIABLE" >> .env.production &&  cat .env.production; else echo "Environment local" ; fi
 
 
 # install python dependencies
