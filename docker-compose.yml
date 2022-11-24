@@ -6,6 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.local
+    image: demo-deploy-repo:latest
     command: python3 server.py
     volumes:
     - ./app:/usr/src/app
