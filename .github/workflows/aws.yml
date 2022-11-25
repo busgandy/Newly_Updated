@@ -44,7 +44,7 @@ jobs:
           # be deployed to ECS.
           docker tag $ECR_REPOSITORY $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker-compose build
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker tag demo-deploy-repo:latest 409629614167.dkr.ecr.us-west-1.amazonaws.com/demo-deploy-repo:latest
           echo "::set-output name=image::$ECR_REGISTRY/demo-deploy-repo:$IMAGE_TAG"
           
           
